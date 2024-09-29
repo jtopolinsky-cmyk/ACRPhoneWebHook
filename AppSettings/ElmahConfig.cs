@@ -1,4 +1,4 @@
-﻿namespace ACRPhone.Webhook.AppSettings
+﻿namespace ACRPhoneWebHook.AppSettings
 {
     public class ElmahConfig
     {

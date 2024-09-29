@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using ACRPhoneWebHook.Models;
 using ACRPhoneWebHook.Utils;
 
-namespace ACRPhone.Webhook.Models
+namespace ACRPhoneWebHook.Models
 {
     [Table("recordings")]
     public class Recording
@@ -33,7 +32,7 @@ namespace ACRPhone.Webhook.Models
         public RecordingFormatted AsFormattedRecording(string uploadPath)
         {
             string DateString;
-            if (Date <= Int32.MaxValue)
+            if (Date <= int.MaxValue)
             {
                 DateString = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Date).ToString();
             }

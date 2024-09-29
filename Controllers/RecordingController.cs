@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ACRPhone.Webhook.Authentication;
-using ACRPhone.Webhook.Models;
-using ACRPhone.Webhook.Repositories;
-using ACRPhone.Webhook.ViewModels;
 using ACRPhoneWebHook.Models;
-using Microsoft.Extensions.Logging;
+using ACRPhoneWebHook.Authentication;
+using ACRPhoneWebHook.Repositories;
+using ACRPhoneWebHook.ViewModels;
 
 
-namespace ACRPhone.Webhook.Controllers
+namespace ACRPhoneWebHook.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

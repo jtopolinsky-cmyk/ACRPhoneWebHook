@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ACRPhone.Webhook.Models;
-using ACRPhone.Webhook.Configuration;
-using NLL.Webhook.Configuration;
 using ElmahCore.Mvc;
 using ElmahCore;
-using ACRPhone.Webhook.Elmah;
 using Microsoft.Extensions.FileProviders;
+using ACRPhoneWebHook.Models;
+using ACRPhoneWebHook.Configuration;
+using ACRPhoneWebHook.Elmah;
 
 
-namespace ACRPhone.Webhook
+namespace ACRPhoneWebHook
 {
     public class Program
     {
@@ -20,7 +19,7 @@ namespace ACRPhone.Webhook
             //Setup App Settings
             builder.Services.Configure<AppSettings.AppSettings>(builder.Configuration.GetSection("AppSettings"));
             //https://stackoverflow.com/a/71709824
-            var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings.AppSettings>() 
+            var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings.AppSettings>()
                 ?? throw new Exception("appSettings was null! Check AppSettings sction of appsettings.json");
 
             builder.Services.AddSingleton(appSettings);

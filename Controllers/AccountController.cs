@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ACRPhone.Webhook.ViewModels;
+using ACRPhoneWebHook.ViewModels;
 
-namespace ACRPhone.Webhook.Controllers
+namespace ACRPhoneWebHook.Controllers
 {
 
     [Route("api")]

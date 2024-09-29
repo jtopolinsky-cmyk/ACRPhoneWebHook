@@ -1,6 +1,6 @@
-﻿using ACRPhone.Webhook.Models;
+﻿using ACRPhoneWebHook.Models;
 
-namespace ACRPhone.Webhook.Repositories
+namespace ACRPhoneWebHook.Repositories
 {
     public interface IRecordingRepository : IRepository<Recording, long>
     {

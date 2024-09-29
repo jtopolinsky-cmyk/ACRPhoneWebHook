@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ACRPhone.Webhook.Models
+namespace ACRPhoneWebHook.Models
 {
     public class WebhookContext(DbContextOptions<WebhookContext> options) : DbContext(options)
     {

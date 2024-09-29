@@ -1,4 +1,4 @@
-﻿namespace ACRPhone.Webhook.ViewModels
+﻿namespace ACRPhoneWebHook.ViewModels
 {
     public class LoginViewModel
     {

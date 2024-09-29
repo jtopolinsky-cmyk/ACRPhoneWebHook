@@ -1,7 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 
-namespace ACRPhone.Webhook.Authentication
+namespace ACRPhoneWebHook.Authentication
 {
     public class CustomAuthOptions : AuthenticationSchemeOptions
     {

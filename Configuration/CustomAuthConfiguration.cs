@@ -1,12 +1,12 @@
-﻿using ACRPhone.Authentication;
-using ACRPhone.Webhook.AppSettings;
-using ACRPhone.Webhook.Authentication;
+﻿using ACRPhoneWebHook.AppSettings;
+using ACRPhoneWebHook.Authentication;
+using ACRPhoneWebHook.Configuration;
 
-namespace NLL.Webhook.Configuration
+namespace ACRPhoneWebHook.Configuration
 {
     public static class CustomAuthConfiguration
     {
-        public static void AddCustomAuth(this IServiceCollection services, AppSettings appSettings)
+        public static void AddCustomAuth(this IServiceCollection services, AppSettings.AppSettings appSettings)
         {
             // Add authentication 
             services.AddAuthentication(options =>

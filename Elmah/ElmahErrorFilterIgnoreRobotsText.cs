@@ -1,6 +1,6 @@
 ﻿using ElmahCore;
 
-namespace ACRPhone.Webhook.Elmah
+namespace ACRPhoneWebHook.Elmah
 {
     public class ElmahErrorFilterIgnoreRobotsText : IErrorFilter
     {

@@ -1,7 +1,6 @@
-﻿using ACRPhone.Webhook.Authentication;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 
-namespace ACRPhone.Authentication
+namespace ACRPhoneWebHook.Authentication
 {
     public static class AuthenticationBuilderExtensions
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using ACRPhone.Webhook.Repositories;
+using ACRPhoneWebHook.Repositories;
 
-namespace ACRPhone.Webhook.Configuration
+namespace ACRPhoneWebHook.Configuration
 {
     public static class ApplicationServiceConfiguration
     {

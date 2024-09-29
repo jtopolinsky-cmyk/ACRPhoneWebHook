@@ -1,6 +1,6 @@
-﻿using ACRPhone.Webhook.AppSettings;
+﻿using ACRPhoneWebHook.AppSettings;
 
-namespace ACRPhone.Webhook.Elmah
+namespace ACRPhoneWebHook.Elmah
 {
 
     public class ElmahHelper(ILogger<ElmahHelper> logger)

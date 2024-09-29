@@ -1,6 +1,4 @@
-﻿using ACRPhone.Webhook.Elmah;
-
-namespace ACRPhone.Webhook.Elmah
+﻿namespace ACRPhoneWebHook.Elmah
 {
     public class ElmahErrorFilterIgnoreFavIcon : ElmahCore.IErrorFilter
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ACRPhone.Webhook.Models;
 using System.Linq.Expressions;
+using ACRPhoneWebHook.Models;
 
-namespace ACRPhone.Webhook.Repositories
+namespace ACRPhoneWebHook.Repositories
 {
     public class RepositoryBase<T, TId> where T : class
     {

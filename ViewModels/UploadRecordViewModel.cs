@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 
 
-namespace ACRPhone.Webhook.ViewModels
+namespace ACRPhoneWebHook.ViewModels
 {
     public class UploadRecordViewModel
     {

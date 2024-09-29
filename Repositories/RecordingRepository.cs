@@ -1,6 +1,6 @@
-﻿using ACRPhone.Webhook.Models;
+﻿using ACRPhoneWebHook.Models;
 
-namespace ACRPhone.Webhook.Repositories
+namespace ACRPhoneWebHook.Repositories
 {
     public class RecordingRepository(WebhookContext dbContext) : RepositoryBase<Recording, long>(dbContext), IRecordingRepository
     {

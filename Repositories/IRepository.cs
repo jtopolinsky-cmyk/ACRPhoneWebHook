@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ACRPhone.Webhook.Repositories
+namespace ACRPhoneWebHook.Repositories
 {
     public interface IRepository<T, TId> where T : class
     {

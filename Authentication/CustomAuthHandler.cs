@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 
 
-namespace ACRPhone.Webhook.Authentication
+namespace ACRPhoneWebHook.Authentication
 {
     public class CustomAuthHandler(IOptionsMonitor<CustomAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : AuthenticationHandler<CustomAuthOptions>(options, logger, encoder, clock)
     {
