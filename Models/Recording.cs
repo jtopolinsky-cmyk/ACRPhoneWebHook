@@ -30,7 +30,7 @@ namespace ACRPhone.Webhook.Models
         [Column("duration")]
         public long Duration { get; set; }
 
-        public RecordingFormatted asFormattedRecording()
+        public RecordingFormatted AsFormattedRecording(string uploadPath)
         {
             string DateString;
             if (Date <= Int32.MaxValue)
@@ -51,6 +51,7 @@ namespace ACRPhone.Webhook.Models
                 Id = Id,
                 Source = Source,
                 FileName = FileName,
+                DownloadPath = uploadPath,
                 Note = Note,
                 Date = DateString,
                 FileSize = FileSizeString,

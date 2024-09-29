@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ACRPhone.Webhook.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace ACRPhone.Webhook.Repositories

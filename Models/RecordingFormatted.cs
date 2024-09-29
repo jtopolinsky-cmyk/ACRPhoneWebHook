@@ -2,26 +2,28 @@
 {
     public class RecordingFormatted
     {
-     
-            public long Id { get; set; }
-                
-            public string Source { get; set; }
 
-      
-            public string FileName { get; set; }
+        public long Id { get; set; }
 
-         
-            public string Note { get; set; }
+        public required string Source { get; set; }
 
-           
-            public string Date { get; set; }
 
-            
-            public string FileSize { get; set; }
+        public required string FileName { get; set; }
 
-            
-            public string Duration { get; set; }
+        public required string DownloadPath { get; set; }
 
-        }
-    
+
+        public required string Note { get; set; }
+
+
+        public required string Date { get; set; }
+
+
+        public required string FileSize { get; set; }
+
+
+        public required string Duration { get; set; }
+
+    }
+
 }

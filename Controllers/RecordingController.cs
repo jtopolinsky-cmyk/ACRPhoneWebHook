@@ -5,42 +5,31 @@ using ACRPhone.Webhook.Models;
 using ACRPhone.Webhook.Repositories;
 using ACRPhone.Webhook.ViewModels;
 using ACRPhoneWebHook.Models;
+using Microsoft.Extensions.Logging;
 
 
 namespace ACRPhone.Webhook.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RecordingController : ControllerBase
+    public class RecordingController(ILogger<RecordingController> logger, IRecordingRepository recordingRepository, AppSettings.AppSettings appSettings) : ControllerBase
     {
-        private readonly ILogger<RecordingController> _logger;
 
-        private readonly IRecordingRepository _recordingRepository;
-
-        private readonly AppSettings.AppSettings _appSettings;
-
-        public RecordingController(ILogger<RecordingController> logger, IRecordingRepository recordingRepository, AppSettings.AppSettings appSettings)
-        {
-            _logger = logger;
-
-            _recordingRepository = recordingRepository;
-
-            _appSettings = appSettings;
-        }
 
         [Authorize(AuthenticationSchemes = CustomAuthOptions.DefaultScheme)]
         [HttpPost("all")]
         public IEnumerable<RecordingFormatted> GetAll()
         {
-            var items = _recordingRepository.GetAll();
-            return items.Select(item => item.asFormattedRecording());
+            return recordingRepository
+                .GetAll()
+                .Select(item => item.AsFormattedRecording(appSettings.UploadPath));
 
         }
 
         [HttpGet("{id}", Name = "GetRecording")]
         public ActionResult<Recording> Get(long id)
         {
-            var recording = _recordingRepository.GetById(id);
+            var recording = recordingRepository.GetById(id);
             if (recording == null)
             {
                 return NotFound();
@@ -52,13 +41,16 @@ namespace ACRPhone.Webhook.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Recording model)
         {
+
+            logger.LogDebug($"{nameof(Create)} -> Create() -> {model}");
+
             if (model == null)
             {
                 return BadRequest();
             }
 
-            _recordingRepository.Add(model);
-            _recordingRepository.Save();
+            recordingRepository.Add(model);
+            recordingRepository.Save();
 
             return CreatedAtRoute("GetRecording", new { id = model.Id }, model);
         }
@@ -66,12 +58,14 @@ namespace ACRPhone.Webhook.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(long id, [FromBody] Recording model)
         {
+            logger.LogDebug($"{nameof(Update)} -> Update() -> {model}");
+
             if (model == null || model.Id != id)
             {
                 return BadRequest();
             }
 
-            var recording = _recordingRepository.GetById(id);
+            var recording = recordingRepository.GetById(id);
             if (recording == null)
             {
                 return NotFound();
@@ -79,8 +73,8 @@ namespace ACRPhone.Webhook.Controllers
 
             recording.Note = model.Note;
 
-            _recordingRepository.Update(recording);
-            _recordingRepository.Save();
+            recordingRepository.Update(recording);
+            recordingRepository.Save();
 
             return new NoContentResult();
         }
@@ -88,14 +82,16 @@ namespace ACRPhone.Webhook.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            var recording = _recordingRepository.GetById(id);
+            logger.LogDebug($"{nameof(Delete)} -> Delete() -> {id}");
+
+            var recording = recordingRepository.GetById(id);
             if (recording == null)
             {
                 return NotFound();
             }
 
-            _recordingRepository.Delete(recording);
-            _recordingRepository.Save();
+            recordingRepository.Delete(recording);
+            recordingRepository.Save();
 
             return new NoContentResult();
         }
@@ -105,7 +101,9 @@ namespace ACRPhone.Webhook.Controllers
         [RequestFormLimits(MultipartBodyLengthLimit = 2147483647)]
         public async Task<IActionResult> Upload([FromForm] UploadRecordViewModel model)
         {
-            if (!string.IsNullOrWhiteSpace(model.Secret) && model.Secret != _appSettings.UserCredentials.Secret)
+            logger.LogDebug($"{nameof(Upload)} -> Upload() -> {model}");
+
+            if (!string.IsNullOrWhiteSpace(model.Secret) && model.Secret != appSettings.UserCredentials.Secret)
             {
                 return StatusCode(401, "User with specified secret " + model.Secret + " doesn't exist");
             }
@@ -140,17 +138,19 @@ namespace ACRPhone.Webhook.Controllers
                     FileSize = length,
                     Duration = model.Duration ?? 0,
                 };
+                logger.LogDebug($"{nameof(Upload)} -> Upload() -> {recording}");
 
-                _recordingRepository.Add(recording);
-                _recordingRepository.Save();
+                recordingRepository.Add(recording);
+                recordingRepository.Save();
 
+                logger.LogDebug($"{nameof(Upload)} -> Upload() -> Ok");
                 return Ok();
             }
             catch (Exception e)
             {
                 var message = "Error while uploading recording";
 
-                _logger.LogError(e, message);
+                logger.LogError(e, message);
 
                 return StatusCode(500, message);
             }
@@ -158,7 +158,7 @@ namespace ACRPhone.Webhook.Controllers
 
         private static string GetUploadPath()
         {
-            return "wwwroot/Uploads";
+            return "uploads";
         }
 
         private static string SafeFileName(string fileName)

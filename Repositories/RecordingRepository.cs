@@ -2,10 +2,7 @@
 
 namespace ACRPhone.Webhook.Repositories
 {
-    public class RecordingRepository : RepositoryBase<Recording, long>, IRecordingRepository
+    public class RecordingRepository(WebhookContext dbContext) : RepositoryBase<Recording, long>(dbContext), IRecordingRepository
     {
-        public RecordingRepository(WebhookContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

@@ -5,6 +5,7 @@ using NLL.Webhook.Configuration;
 using ElmahCore.Mvc;
 using ElmahCore;
 using ACRPhone.Webhook.Elmah;
+using Microsoft.Extensions.FileProviders;
 
 
 namespace ACRPhone.Webhook
@@ -15,27 +16,33 @@ namespace ACRPhone.Webhook
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //Make sure AppData Folder exist. We use it for sqlite db and elmah logs. AppData is not AppData from .net4 We simply like the name and use it. It could have been any folder name
-            if (!Directory.Exists("AppData"))
-            {
-                Directory.CreateDirectory("AppData");
-            }
-
-
-            //To access httpcontext in controllers
-            builder.Services.AddHttpContextAccessor();
-
 
             //Setup App Settings
             builder.Services.Configure<AppSettings.AppSettings>(builder.Configuration.GetSection("AppSettings"));
             //https://stackoverflow.com/a/71709824
-            var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings.AppSettings>();
-     
-            if(appSettings == null)
-            {
-                throw new Exception("appSettings was null! Check AppSettings sction of appsettings.json");
-            }
+            var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings.AppSettings>() 
+                ?? throw new Exception("appSettings was null! Check AppSettings sction of appsettings.json");
+
             builder.Services.AddSingleton(appSettings);
+
+
+            using var loggerFactory = LoggerFactory.Create(loggingBuilder => loggingBuilder
+            .SetMinimumLevel(LogLevel.Debug)
+            .AddConsole());
+            var programLogger = loggerFactory.CreateLogger<Program>();
+
+
+
+            //Make sure AppData Folder exist. We use it for sqlite db and elmah logs. AppData is not AppData from .net4 We simply like the name and use it. It could have been any folder name
+            if (!Directory.Exists(appSettings.AppDataPath))
+            {
+                Directory.CreateDirectory(appSettings.AppDataPath);
+            }
+            programLogger.LogDebug($"{nameof(Program)} -> AppDataPath -> {appSettings.AppDataPath}");
+
+
+            //To access httpcontext in controllers
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddDbContext<WebhookContext>(options =>
             {
@@ -78,13 +85,28 @@ namespace ACRPhone.Webhook
 
             app.UseAuthentication();
             app.UseDefaultFiles();
-            app.UseStaticFiles();
             app.UseFileServer();
+
+            var RecordingUploadPath = Path.Combine(app.Environment.ContentRootPath, appSettings.UploadPath);
+
+            if (!Directory.Exists(RecordingUploadPath))
+            {
+                Directory.CreateDirectory(RecordingUploadPath);
+            }
+            programLogger.LogDebug($"{nameof(Program)} -> UploadPath -> {RecordingUploadPath}");
+
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/uploads",
+                FileProvider = new PhysicalFileProvider(RecordingUploadPath)
+            });
+
             app.MapControllers();
             app.UseElmah();
             app.Run();
 
-  
+
 
         }
     }

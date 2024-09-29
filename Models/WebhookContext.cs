@@ -2,13 +2,8 @@
 
 namespace ACRPhone.Webhook.Models
 {
-    public class WebhookContext : DbContext
+    public class WebhookContext(DbContextOptions<WebhookContext> options) : DbContext(options)
     {
-        public WebhookContext(DbContextOptions<WebhookContext> options) : base(options)
-        {
-            
-        }
-
         public DbSet<Recording> Recordings { get; set; }
 
     }
